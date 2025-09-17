@@ -1,0 +1,56 @@
+# Configuration file for keypoint extraction
+# This allows you to control which classes to process
+
+# Extraction settings
+extraction:
+  # Target FPS for video processing
+  fps: 15.0
+  
+  # Maximum frames per video (null for no limit)
+  max_frames: null
+  
+  # Overwrite existing files
+  overwrite: false
+  
+  # MediaPipe confidence thresholds
+  detection_confidence: 0.5
+  tracking_confidence: 0.5
+
+# Class selection mode
+# Options: "all", "first_n", "specific", "range"
+selection_mode: "range"
+
+# Number of classes to process (when mode is "first_n")
+first_n_classes: 10
+
+# Specific classes to process (when mode is "specific")
+# List class names exactly as they appear in folders
+specific_classes:
+  - about
+  - acting
+  - afternoon
+  - agree
+  - animals
+  - annual
+  - baby
+  - banana
+  - barber
+  - biomass
+
+# Range of classes to process (when mode is "range")
+# Uses alphabetical ordering of class names
+class_range:
+  start: 0    # Start index (0-based)
+  end: 15     # End index (exclusive)
+
+# Exclude specific classes (applies to all modes)
+exclude_classes:
+  # - some_class_to_skip
+
+# Output settings
+output:
+  # Create separate class_to_idx.json for selected classes only
+  create_filtered_class_map: true
+  
+  # Verbose output
+  verbose: true

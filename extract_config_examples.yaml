@@ -1,0 +1,70 @@
+# Example configurations for different scenarios
+
+# =============================================================================
+# SCENARIO 1: Extract first 10 classes for quick testing
+# =============================================================================
+# extraction:
+#   fps: 15.0
+#   max_frames: null
+#   overwrite: false
+
+# selection_mode: "first_n"
+# first_n_classes: 10
+
+# output:
+#   create_filtered_class_map: true
+#   verbose: true
+
+# =============================================================================
+# SCENARIO 2: Extract specific classes you're interested in
+# =============================================================================
+# extraction:
+#   fps: 15.0
+#   max_frames: null
+#   overwrite: false
+
+# selection_mode: "specific"
+# specific_classes:
+#   - about
+#   - hello
+#   - thank_you
+#   - please
+#   - sorry
+
+# output:
+#   create_filtered_class_map: true
+#   verbose: true
+
+# =============================================================================
+# SCENARIO 3: Extract a range of classes (useful for batch processing)
+# =============================================================================
+extraction:
+  fps: 15.0
+  max_frames: null
+  overwrite: false
+
+selection_mode: "range"
+class_range:
+  start: 0    # Start from first class
+  end: 10     # Process first 20 classes
+
+output:
+  create_filtered_class_map: true
+  verbose: true
+
+# =============================================================================
+# SCENARIO 4: Extract all classes but exclude some problematic ones
+# =============================================================================
+# extraction:
+#   fps: 15.0
+#   max_frames: null
+#   overwrite: false
+
+# selection_mode: "all"
+# exclude_classes:
+#   - some_problematic_class
+#   - another_bad_class
+
+# output:
+#   create_filtered_class_map: true
+#   verbose: true

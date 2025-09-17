@@ -1,0 +1,10 @@
+# Training configuration
+features_root: features
+out_dir: checkpoints
+epochs: 30
+batch_size: 16
+lr: 1.0e-4
+max_len: 32
+hidden: 256
+layers: 2
+dropout: 0.3

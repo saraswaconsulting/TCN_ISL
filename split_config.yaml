@@ -1,0 +1,20 @@
+# Dataset Split Configuration
+# This file contains default parameters for splitting the ISL dataset
+
+# Data paths
+data_root: "data"              # Source directory containing class folders
+output_root: "data_split"      # Output directory for train/val splits
+
+# Split parameters
+train_ratio: 0.7              # 70% for training
+random_seed: 42               # For reproducible splits
+
+# File extensions to include (case-insensitive)
+video_extensions:
+  - .mp4
+  - .avi
+  - .mov
+  - .mkv
+
+# Minimum files per class to include in dataset
+min_files_per_class: 5

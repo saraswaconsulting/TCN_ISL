@@ -1,0 +1,13 @@
+# Core
+torch
+torchvision
+numpy
+opencv-python
+tqdm
+scikit-learn
+mediapipe
+matplotlib
+pyyaml
+
+pillow
+nbformat
