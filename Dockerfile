@@ -9,10 +9,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Create virtual environment
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_NO_CACHE_DIR=1 \
+    UV_THREADPOOL_SIZE=1
 
 # Copy requirements and install dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt \
+    && find /opt/venv -type d -name "__pycache__" -prune -exec rm -rf {} + \
+    && find /opt/venv -type d \( -name "tests" -o -name "test" \) -prune -exec rm -rf {} +
 
 # Final stage - minimal runtime
 FROM python:3.9-slim
@@ -27,6 +32,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Copy virtual environment from builder
 COPY --from=builder /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    OMP_NUM_THREADS=1 \
+    OPENBLAS_NUM_THREADS=1 \
+    MKL_NUM_THREADS=1 \
+    NUMEXPR_NUM_THREADS=1 \
+    PYTHONOPTIMIZE=1
 
 # Set working directory
 WORKDIR /app
@@ -42,16 +54,10 @@ RUN useradd -m -u 1000 appuser && \
 
 USER appuser
 
-# Set environment variables
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
+## Environment variables set earlier
 
 # Expose port
 EXPOSE 7860
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:7860')" || exit 1
 
 # Run the application
 CMD ["python", "gradio_isl_demo.py"]
