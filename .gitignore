@@ -26,7 +26,7 @@ credentials.json
 !*example*
 
 # Railway specific
-.railway/
+
 
 # ==============================================================================
 # Model checkpoints and weights - RAILWAY DEPLOYMENT OPTIMIZED
