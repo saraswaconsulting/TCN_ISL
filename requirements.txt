@@ -1,19 +1,10 @@
-# Ultra-lightweight requirements for Railway deployment
-# CPU-only PyTorch (much smaller than CUDA version)
-torch==2.0.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
-torchvision==0.15.2+cpu --extra-index-url https://download.pytorch.org/whl/cpu
-
-# Minimal computer vision dependencies
+# Minimal requirements for Railway deployment - under 4GB limit
+torch==2.0.1
+torchvision==0.15.2
 opencv-python-headless==4.8.1.78
 mediapipe==0.10.7
-
-# Lightweight web interface
 gradio==4.44.0
-
-# Google AI
 google-generativeai==0.3.2
-
-# Essential utilities only
 numpy==1.24.4
 pyyaml==6.0.1
 python-dateutil==2.8.2
