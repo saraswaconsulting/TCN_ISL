@@ -1,10 +1,13 @@
-# Minimal requirements for Railway deployment - under 4GB limit
-torch==2.0.1
+# Minimal requirements for Railway deployment (lean image)
+# NOTE: torch CPU-only is installed in Dockerfile to avoid pulling CUDA wheels
 opencv-python-headless==4.8.1.78
-mediapipe==0.10.7
 gradio==4.44.0
 google-generativeai==0.3.2
 numpy==1.24.4
 pyyaml==6.0.1
 python-dateutil==2.8.2
 requests==2.32.3
+# Mediapipe installed with --no-deps in Dockerfile to avoid opencv-contrib
+# Add minimal deps mediapipe expects
+absl-py==2.3.1
+protobuf==3.20.3

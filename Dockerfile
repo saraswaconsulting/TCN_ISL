@@ -15,7 +15,10 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
 
 # Copy requirements and install dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt \
+# Install CPU-only PyTorch first to avoid CUDA wheels
+RUN pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu torch==2.0.1 \
+    && pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir mediapipe==0.10.7 --no-deps \
     && find /opt/venv -type d -name "__pycache__" -prune -exec rm -rf {} + \
     && find /opt/venv -type d \( -name "tests" -o -name "test" \) -prune -exec rm -rf {} +
 
