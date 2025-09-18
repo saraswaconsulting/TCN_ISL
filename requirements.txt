@@ -1,8 +1,7 @@
 # Minimal requirements for Railway deployment (lean image)
 # NOTE: torch CPU-only is installed in Dockerfile to avoid pulling CUDA wheels
 opencv-python-headless==4.8.1.78
-gradio==4.44.0
-gradio-client==1.4.2
+gradio==4.47.0
 google-generativeai==0.3.2
 numpy==1.24.4
 pyyaml==6.0.1
