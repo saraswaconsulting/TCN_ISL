@@ -2,7 +2,52 @@
 
 # ==============================================================================
 # Python
+# ==============# ==============================================================================
+# RAILWAY DEPLOYMENT SECURITY
 # ==============================================================================
+
+# Environment variables and secrets
+.env
+.env.local
+.env.production
+.env.development
+*.env
+!.env.example
+
+# API Keys and credentials (CRITICAL FOR SECURITY)
+*api_key*
+*secret*
+*password*
+*token*
+gemini_config.yaml
+config_private.yaml
+secrets.yaml
+credentials.json
+!*example*
+
+# Railway specific
+.railway/
+
+# ==============================================================================
+# Model checkpoints and weights - RAILWAY DEPLOYMENT OPTIMIZED
+# ==============================================================================
+
+# Block most model files to save space but ALLOW our deployment model
+*.pth
+*.pkl
+*.pickle
+*.joblib
+*.h5
+*.hdf5
+*.onnx
+*.pb
+
+# Block checkpoint subdirectories but allow the main one
+checkpoints/13-09-2025/
+checkpoints/*/
+
+# EXPLICITLY ALLOW our deployment model
+!checkpoints/best_gru.pt=================================================
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -135,19 +180,11 @@ dmypy.json
 .pyre/
 
 # ==============================================================================
-# Machine Learning & Data Science
+# Machine Learning & Data Science - MODIFIED FOR RAILWAY DEPLOYMENT
 # ==============================================================================
 
-# Model checkpoints and weights
-checkpoints/
-*.pt
-*.pth
-*.pkl
-*.pickle
-*.joblib
-*.h5
-*.hdf5
-*.onnx
+# Block most model files but allow our deployment model
+# Note: checkpoints/best_gru.pt is explicitly allowed above
 *.pb
 
 # TensorBoard logs
@@ -176,6 +213,7 @@ data/
 raw_data/
 videos/
 dataset/
+data_raw/
 
 # Extracted features
 features/

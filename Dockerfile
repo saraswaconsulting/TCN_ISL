@@ -1,18 +1,36 @@
-# Simple CPU Dockerfile (use nvidia/cuda base for GPU deployments)
-FROM python:3.10-slim
+# Railway Dockerfile for ISL Gradio Demo
+FROM python:3.9-slim
 
+# Set working directory
 WORKDIR /app
 
-# System deps
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential git ffmpeg libsm6 libxext6 \
- && rm -rf /var/lib/apt/lists/*
+# Install system dependencies for OpenCV and MediaPipe
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    libgl1-mesa-glx \
+    libgthread-2.0-0 \
+    libgtk-3-0 \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt ./
+# Copy requirements first for better caching
+COPY requirements.txt .
+
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy code
+# Copy application code and model
 COPY . .
 
-# Default command prints help
-CMD [ "python", "train.py", "--help" ]
+# Create non-root user for security
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+# Expose port (Railway will set PORT env variable)
+EXPOSE 7860
+
+# Run the Gradio application
+CMD ["python", "gradio_isl_demo.py"]
