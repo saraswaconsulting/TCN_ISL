@@ -8,6 +8,10 @@ scikit-learn
 mediapipe
 matplotlib
 pyyaml
+rich
+
+# LLM Integration
+google-generativeai
 
 pillow
 nbformat
