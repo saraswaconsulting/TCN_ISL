@@ -6,6 +6,8 @@ Secure deployment with environment variables for sensitive data
 
 import os
 import gradio as gr
+from fastapi import FastAPI
+import uvicorn
 import torch
 import numpy as np
 import cv2
@@ -505,11 +507,18 @@ with gr.Blocks(title="ISL to English Translation", theme=gr.themes.Soft()) as de
 if __name__ == "__main__":
     # Get port from environment (Railway sets this automatically)
     port = int(os.getenv("PORT", 7860))
-    # Railway environments may not allow localhost access from healthcheck without a public link
-    share_flag = os.getenv("GRADIO_SHARE", "true").lower() == "true"
-    demo.launch(
-        server_name="0.0.0.0",
-        server_port=port,
-        share=share_flag,
-        show_error=True
-    )
+
+    # Create a FastAPI app with a simple health endpoint and mount Gradio at /app
+    api = FastAPI()
+
+    @api.get("/")
+    def root():
+        return {"status": "ok", "service": "isl-demo"}
+
+    @api.get("/healthz")
+    def health():
+        return {"status": "ok"}
+
+    app = gr.mount_gradio_app(api, demo, path="/app")
+
+    uvicorn.run(app, host="0.0.0.0", port=port)
