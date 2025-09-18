@@ -1,5 +1,5 @@
 # Multi-stage build for minimal Railway deployment
-FROM python:3.9-slim as builder
+FROM python:3.10-slim as builder
 
 # Install build dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -23,7 +23,7 @@ RUN pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu 
     && find /opt/venv -type d \( -name "tests" -o -name "test" \) -prune -exec rm -rf {} +
 
 # Final stage - minimal runtime
-FROM python:3.9-slim
+FROM python:3.10-slim
 
 # Install only runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
