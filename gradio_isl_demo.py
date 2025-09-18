@@ -505,10 +505,11 @@ with gr.Blocks(title="ISL to English Translation", theme=gr.themes.Soft()) as de
 if __name__ == "__main__":
     # Get port from environment (Railway sets this automatically)
     port = int(os.getenv("PORT", 7860))
-    
+    # Railway environments may not allow localhost access from healthcheck without a public link
+    share_flag = os.getenv("GRADIO_SHARE", "true").lower() == "true"
     demo.launch(
         server_name="0.0.0.0",
         server_port=port,
-        share=False,  # Don't create public links in deployment
+        share=share_flag,
         show_error=True
     )
