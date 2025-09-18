@@ -1,0 +1,69 @@
+# .dockerignore - Reduce build context size for faster builds
+# Documentation
+*.md
+README*
+LICENSE*
+
+# Git
+.git
+.gitignore
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+
+# Development files
+.vscode
+.idea
+*.swp
+*.swo
+
+# Data files we don't need in container
+data/
+data_raw/
+features_all/
+features/
+
+# Checkpoints we don't need (keep only best_gru.pt)
+checkpoints/13-09-2025/
+
+# Test files
+test_*
+*_test.py
+streaming_demo.py
+streaming_ctc_demo.py
+
+# Other training scripts we don't need
+train.py
+ctc_train.py
+fusion_train.py
+hand_fusion_train.py
+eval.py
+predict.py
+extract_keypoints*.py
+split_dataset.py
+merge_class_mappings.py
+pose_transformer.py
+hand_crop_cnn.py
+
+# Configuration files we don't need
+extract_config*.yaml
+split_config.yaml
+config.yaml
+gemini_config.yaml
+
+# Other files
+*.txt
+!requirements.txt
+*.bat
+*.ps1

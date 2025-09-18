@@ -1,36 +1,33 @@
-# Railway Optimized Dockerfile for ISL Gradio Demo
+# Railway Optimized Dockerfile - Minimal and Fast
 FROM python:3.9-slim
 
 # Set working directory
 WORKDIR /app
 
-# Install minimal system dependencies for OpenCV and MediaPipe
-RUN apt-get update && apt-get install -y \
+# Install only essential system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
     libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
     libgomp1 \
-    libglib2.0-dev \
-    pkg-config \
-    ffmpeg \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
 
 # Copy requirements first for better caching
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies with optimizations
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Copy application code and model
-COPY . .
+# Copy only necessary files (not entire directory)
+COPY gradio_isl_demo.py common.py ./
+COPY checkpoints/best_gru.pt ./checkpoints/
 
-# Create non-root user for security
+# Create non-root user
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
 
-# Expose port (Railway will set PORT env variable)
+# Expose port
 EXPOSE 7860
 
-# Run the Gradio application
+# Run the application
 CMD ["python", "gradio_isl_demo.py"]
